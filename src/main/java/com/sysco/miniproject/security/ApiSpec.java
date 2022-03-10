@@ -7,7 +7,7 @@ public class ApiSpec {
 
     public static Supplier<String[]> NonSecuredPostApis = () -> new String[]{
             "/api/auth/signup",
-            "/user-service/api/sign-in"
+            "/api/auth/sign-in"
     };
 
     public static Supplier<String[]> NonSecuredGetApis = () -> new String[]{
