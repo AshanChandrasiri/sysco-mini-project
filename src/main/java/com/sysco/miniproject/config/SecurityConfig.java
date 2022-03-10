@@ -66,20 +66,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 
-
-//        http.cors().disable()
-//                .csrf().disable()
-//                .authorizeRequests()
-//                .antMatchers("/swagger-ui/**","/swagger-resources/**")
-//                .permitAll()
-//
-//                .anyRequest()
-//                .authenticated()
-//                .and()
-//                .oauth2ResourceServer()
-//                .jwt();
-
-
     }
 
     @Override
