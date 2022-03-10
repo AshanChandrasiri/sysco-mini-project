@@ -19,7 +19,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@AutoConfigureMockMvc
+@AutoConfigureMockMvc(addFilters = false)
 class ProductControllerTest {
 
     @Autowired
@@ -43,7 +43,5 @@ class ProductControllerTest {
                 .andExpect(jsonPath("$", hasSize(2))) // 2 items in the response
                 .andExpect(jsonPath("$[0].*", hasSize(5)) // 1 object in thr result list has 5 fields
                 );
-
-
     }
 }
