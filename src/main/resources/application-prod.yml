@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: sysco-miniproject-prod
+
+server:
+  port: 8080
