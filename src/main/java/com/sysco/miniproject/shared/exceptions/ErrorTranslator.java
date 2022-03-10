@@ -35,7 +35,7 @@ public class ErrorTranslator {
     public ResponseEntity<ErrorResponse> handleGeneralException(GeneralException ex) {
 
         ErrorResponse response = generateError(ex.getCode(),ex.getMessage());
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        return ResponseEntity.status(ex.getCode()).body(response);
     }
 
 

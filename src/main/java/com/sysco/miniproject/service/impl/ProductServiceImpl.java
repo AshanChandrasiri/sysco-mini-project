@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sysco.miniproject.data.dao.Category;
 import com.sysco.miniproject.data.dao.Product;
 import com.sysco.miniproject.data.dto.request.CreateCategoryDto;
-import com.sysco.miniproject.data.dto.request.CretaeProductDto;
+import com.sysco.miniproject.data.dto.request.CreateProductDto;
 import com.sysco.miniproject.data.dto.response.ViewProductDto;
 import com.sysco.miniproject.respository.CategoryRepository;
 import com.sysco.miniproject.respository.ProductRepository;
@@ -36,7 +36,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product createProduct(CretaeProductDto req) {
+    public Product createProduct(CreateProductDto req) {
         Product product = new Product();
         product.setName(req.getName());
         product.setPrice(req.getPrice());
