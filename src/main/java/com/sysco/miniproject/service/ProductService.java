@@ -15,6 +15,8 @@ public interface ProductService {
 
     Product createProduct(CreateProductDto req);
 
+    Product getProductById(Long id);
+
     List<Category> getAllCategories();
 
     List<ViewProductDto> getAllProductsByCategory(Long categoryId, Pageable pageable);

@@ -8,6 +8,7 @@ import com.sysco.miniproject.data.dto.response.SingInResDto;
 import com.sysco.miniproject.respository.RoleRepository;
 import com.sysco.miniproject.respository.UserRepository;
 import com.sysco.miniproject.security.jwt.JwtUtils;
+import com.sysco.miniproject.security.services.UserDetailsImpl;
 import com.sysco.miniproject.service.AuthService;
 import com.sysco.miniproject.shared.Constants;
 import com.sysco.miniproject.shared.exceptions.NotFoundException;
@@ -16,6 +17,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -65,8 +67,19 @@ public class AuthServiceImpl implements AuthService {
         return new SingInResDto(jwt);
     }
 
+    @Override
+    public User getContextUser() {
+        return userRepository.findById(getUserFromContext().getId())
+                .orElseThrow(() -> new NotFoundException("Invalid user"));
+    }
+
     private Role getRole(String roleName) {
         return roleRepository.findByName(roleName)
                 .orElseThrow(() -> new NotFoundException("Role not found"));
+    }
+
+    private UserDetailsImpl getUserFromContext() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return (UserDetailsImpl) principal;
     }
 }
