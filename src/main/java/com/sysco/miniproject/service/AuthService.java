@@ -11,4 +11,6 @@ public interface AuthService {
 
     SingInResDto signIn(SignInReqDto req);
 
+    User getContextUser();
+
 }

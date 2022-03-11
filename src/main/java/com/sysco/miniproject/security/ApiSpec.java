@@ -11,6 +11,7 @@ public class ApiSpec {
     };
 
     public static Supplier<String[]> NonSecuredGetApis = () -> new String[]{
+//            "/api/product/**"
     };
 
 

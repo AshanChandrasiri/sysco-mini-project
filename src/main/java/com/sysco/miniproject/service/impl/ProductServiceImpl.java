@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sysco.miniproject.data.dao.Category;
 import com.sysco.miniproject.data.dao.Product;
 import com.sysco.miniproject.data.dto.request.CreateCategoryDto;
-import com.sysco.miniproject.data.dto.request.CretaeProductDto;
+import com.sysco.miniproject.data.dto.request.CreateProductDto;
 import com.sysco.miniproject.data.dto.response.ViewProductDto;
 import com.sysco.miniproject.respository.CategoryRepository;
 import com.sysco.miniproject.respository.ProductRepository;
@@ -36,13 +36,18 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product createProduct(CretaeProductDto req) {
+    public Product createProduct(CreateProductDto req) {
         Product product = new Product();
         product.setName(req.getName());
         product.setPrice(req.getPrice());
         product.setImage(req.getImage());
         product.setCategory(getCategoryById(req.getCategoryId()));
         return productRepository.save(product);
+    }
+
+    @Override
+    public Product getProductById(Long id) {
+        return getProduct(id);
     }
 
     @Override
@@ -73,4 +78,8 @@ public class ProductServiceImpl implements ProductService {
                 .orElseThrow(() -> new NotFoundException("Invalid category id"));
     }
 
+    private Product getProduct(Long productId) {
+        return productRepository.findById(productId)
+                .orElseThrow(() -> new NotFoundException("Invalid Product id"));
+    }
 }

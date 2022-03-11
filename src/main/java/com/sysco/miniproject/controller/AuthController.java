@@ -36,9 +36,10 @@ public class AuthController {
     }
 
     @GetMapping("/account")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public ResponseEntity<String> getCurrentUser() {
+    public ResponseEntity<User> getCurrentUser() {
         log.info("request to get current user");
-        return ResponseEntity.ok().body("current user");
+        return ResponseEntity.ok().body(authService.getContextUser());
     }
+
+
 }

@@ -1,5 +1,6 @@
 package com.sysco.miniproject.data.dao;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,13 +13,21 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "category")
-public class Category {
+@Table(name = "cart_product")
+public class CartProduct {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Cart cart;
+
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Product product;
+
+    private int quantity;
 
 }

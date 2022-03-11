@@ -2,10 +2,8 @@ package com.sysco.miniproject.controller;
 
 import com.sysco.miniproject.data.dao.Category;
 import com.sysco.miniproject.data.dao.Product;
-import com.sysco.miniproject.data.dao.User;
 import com.sysco.miniproject.data.dto.request.CreateCategoryDto;
-import com.sysco.miniproject.data.dto.request.CreateUserDto;
-import com.sysco.miniproject.data.dto.request.CretaeProductDto;
+import com.sysco.miniproject.data.dto.request.CreateProductDto;
 import com.sysco.miniproject.data.dto.response.ViewProductDto;
 import com.sysco.miniproject.service.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +24,7 @@ public class ProductController {
     private final ProductService productService;
 
     @PostMapping("/product/create")
-    public ResponseEntity<Product> createProduct(@Valid @RequestBody CretaeProductDto req) {
+    public ResponseEntity<Product> createProduct(@Valid @RequestBody CreateProductDto req) {
         log.info("request to create product, {}", req);
         Product result = productService.createProduct(req);
         return ResponseEntity.ok().body(result);
