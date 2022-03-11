@@ -7,12 +7,6 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.server.ResponseStatusException;
-
-import javax.validation.ConstraintViolationException;
-import java.util.HashMap;
-import java.util.Map;
 
 @ControllerAdvice
 public class ErrorTranslator {
@@ -20,14 +14,13 @@ public class ErrorTranslator {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> handleValidationExceptions(MethodArgumentNotValidException ex) {
 
-        StringBuilder sb = new StringBuilder();
-        ex.getBindingResult().getAllErrors().forEach((error) -> {
-            String fieldName = ((FieldError) error).getField();
-            String errorMessage = error.getDefaultMessage();
-            sb.append(String.format("%s : %s. ", fieldName, errorMessage));
-        });
+        String msg = ex.getBindingResult().getAllErrors().stream().map(oE -> {
+            String fieldName = ((FieldError) oE).getField();
+            String errorMessage = oE.getDefaultMessage();
+            return  fieldName + " : " + errorMessage;
+        }).reduce((s, s2) -> s + "," + s2).get();
 
-        ErrorResponse response = generateError(HttpStatus.BAD_REQUEST.value(), sb.toString());
+        ErrorResponse response = generateError(HttpStatus.BAD_REQUEST.value(), msg);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
 

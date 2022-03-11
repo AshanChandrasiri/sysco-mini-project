@@ -1,7 +1,6 @@
 package com.sysco.miniproject.respository;
 
 import com.sysco.miniproject.data.dao.Cart;
-import com.sysco.miniproject.data.dao.Category;
 import com.sysco.miniproject.respository.models.CartDetails;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
