@@ -45,13 +45,13 @@ public class ProductController {
 
     @GetMapping("/product/all/{categoryId}")
     public ResponseEntity<List<ViewProductDto>> getAllProductsByCategory(@PathVariable Long categoryId, Pageable pageable) {
-        log.info("request to get all categories");
+        log.info("request to get all categories by id, {}", categoryId);
         return ResponseEntity.ok().body(productService.getAllProductsByCategory(categoryId, pageable));
     }
 
     @GetMapping("/product/search/{categoryId}/{name}")
     public ResponseEntity<List<ViewProductDto>> searchProductByName( @PathVariable Long categoryId, @PathVariable String name) {
-        log.info("request to get all categories");
+        log.info("request to get all product of the category, {}", categoryId);
         return ResponseEntity.ok().body(productService.searchProductByName(categoryId, name));
     }
 }

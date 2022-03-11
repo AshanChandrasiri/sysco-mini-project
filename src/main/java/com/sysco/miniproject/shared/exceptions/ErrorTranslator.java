@@ -18,7 +18,7 @@ public class ErrorTranslator {
             String fieldName = ((FieldError) oE).getField();
             String errorMessage = oE.getDefaultMessage();
             return  fieldName + " : " + errorMessage;
-        }).reduce((s, s2) -> s + "," + s2).get();
+        }).reduce((s, s2) -> s + "," + s2).orElse("");
 
         ErrorResponse response = generateError(HttpStatus.BAD_REQUEST.value(), msg);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
