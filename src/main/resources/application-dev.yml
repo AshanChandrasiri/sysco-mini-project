@@ -24,3 +24,6 @@ bezkoder:
   app:
     jwtSecret: bezKoderSecretKey
     jwtExpirationMs: 86400000
+
+
+#  ./gradlew sonarqube -D "sonar.projectKey=syscominiproject" -D "sonar.host.url=http://localhost:9000" -D "sonar.login=d8d4d71b79f6e83844ce54239d052afc2ba4e8fe"
