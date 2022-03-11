@@ -2,6 +2,7 @@ package com.sysco.miniproject.data.dao;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sysco.miniproject.data.dto.request.CreateUserDto;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,6 +16,7 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "sysco_user")
 public class User {
