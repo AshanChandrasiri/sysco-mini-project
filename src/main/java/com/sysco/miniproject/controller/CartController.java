@@ -7,6 +7,7 @@ import com.sysco.miniproject.data.dto.request.AddToCartDto;
 import com.sysco.miniproject.data.dto.request.CreateCartDto;
 import com.sysco.miniproject.data.dto.request.CreateProductDto;
 import com.sysco.miniproject.data.dto.response.CartViewDto;
+import com.sysco.miniproject.respository.models.CartDetails;
 import com.sysco.miniproject.service.CartService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/cart")
@@ -49,6 +51,13 @@ public class CartController {
     public ResponseEntity<CartViewDto> view(@PathVariable Long cartId) {
         log.info("request to view to cart, {}", cartId);
         CartViewDto result = cartService.viewCart(cartId);
+        return ResponseEntity.ok().body(result);
+    }
+
+    @GetMapping("/user-carts")
+    public ResponseEntity<List<CartDetails>> getUsersCarts() {
+        log.info("request to get users carts");
+        List<CartDetails> result = cartService.getUserCarts();
         return ResponseEntity.ok().body(result);
     }
 }

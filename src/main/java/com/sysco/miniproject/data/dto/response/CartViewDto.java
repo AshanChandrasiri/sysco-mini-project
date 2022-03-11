@@ -15,7 +15,9 @@ public class CartViewDto {
 
     private boolean closed;
 
-    private double total;
+    private double totalPrice;
+
+    private int totalItems;
 
     List<CartProductViewDto> products;
 

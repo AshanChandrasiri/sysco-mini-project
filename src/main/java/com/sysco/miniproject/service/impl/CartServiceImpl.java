@@ -10,6 +10,7 @@ import com.sysco.miniproject.data.dto.response.CartProductViewDto;
 import com.sysco.miniproject.data.dto.response.CartViewDto;
 import com.sysco.miniproject.respository.CartProductRepository;
 import com.sysco.miniproject.respository.CartRepository;
+import com.sysco.miniproject.respository.models.CartDetails;
 import com.sysco.miniproject.service.AuthService;
 import com.sysco.miniproject.service.CartService;
 import com.sysco.miniproject.service.ProductService;
@@ -89,9 +90,17 @@ public class CartServiceImpl implements CartService {
                 .stream().map(this::convert).collect(Collectors.toList());
 
         dto.setProducts(products);
-        dto.setTotal(Utils.calculateTotal(cart.getCartProducts()));
+        dto.setTotalItems(cart.getCartProducts().size());
+        dto.setTotalPrice(Utils.calculateTotal(cart.getCartProducts()));
 
         return dto;
+    }
+
+    @Override
+    public List<CartDetails> getUserCarts() {
+        User currentUser = authService.getContextUser();
+        return cartRepository
+                .getUsersAllCarts(currentUser.getId());
     }
 
     private CartProductViewDto convert(CartProduct cp) {

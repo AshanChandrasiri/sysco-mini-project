@@ -95,7 +95,7 @@ class CartControllerTest {
         User user = new User(1l, "User", "user", "user@gmail.com", "", null);
 
         Cart cart = new Cart(1L, "grocery", false, user, null);
-        
+
         given(authService.getContextUser())
                 .willReturn(user);
 
