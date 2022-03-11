@@ -3,12 +3,14 @@ package com.sysco.miniproject.service.impl;
 import com.sysco.miniproject.data.dao.Cart;
 import com.sysco.miniproject.data.dao.CartProduct;
 import com.sysco.miniproject.data.dao.Product;
+import com.sysco.miniproject.data.dao.User;
 import com.sysco.miniproject.data.dto.request.AddToCartDto;
 import com.sysco.miniproject.data.dto.request.CreateCartDto;
 import com.sysco.miniproject.data.dto.response.CartProductViewDto;
 import com.sysco.miniproject.data.dto.response.CartViewDto;
 import com.sysco.miniproject.respository.CartProductRepository;
 import com.sysco.miniproject.respository.CartRepository;
+import com.sysco.miniproject.respository.models.CartDetails;
 import com.sysco.miniproject.service.AuthService;
 import com.sysco.miniproject.service.CartService;
 import com.sysco.miniproject.service.ProductService;
@@ -73,7 +75,11 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public CartViewDto viewCart(Long cartId) {
-        Cart cart = getCartById(cartId);
+
+        User currentUser = authService.getContextUser();
+
+        Cart cart = cartRepository.findByIdAndUserId(cartId, currentUser.getId())
+                .orElseThrow(() -> new NotFoundException("Cart does not found for user"));
 
         CartViewDto dto = new CartViewDto();
         dto.setClosed(cart.isOpen());
@@ -84,9 +90,17 @@ public class CartServiceImpl implements CartService {
                 .stream().map(this::convert).collect(Collectors.toList());
 
         dto.setProducts(products);
-        dto.setTotal(Utils.calculateTotal(cart.getCartProducts()));
+        dto.setTotalItems(cart.getCartProducts().size());
+        dto.setTotalPrice(Utils.calculateTotal(cart.getCartProducts()));
 
         return dto;
+    }
+
+    @Override
+    public List<CartDetails> getUserCarts() {
+        User currentUser = authService.getContextUser();
+        return cartRepository
+                .getUsersAllCarts(currentUser.getId());
     }
 
     private CartProductViewDto convert(CartProduct cp) {
