@@ -1,6 +1,5 @@
 package com.sysco.miniproject.data.dto.request;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 

@@ -1,0 +1,4 @@
+sudo snap stop docker
+
+
+jar build command: sudo ./gradlew docker -Pversion=0.02

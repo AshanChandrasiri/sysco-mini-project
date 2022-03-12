@@ -20,7 +20,7 @@ public class ViewProductDto {
 
     public ViewProductDto(Product product){
         this.id = product.getId();
-        this.name = product.getName();;
+        this.name = product.getName();
         this.price = product.getPrice();
         this.image = product.getImage();
         this.categoryId = product.getCategory().getId();

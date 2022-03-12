@@ -58,18 +58,17 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<ViewProductDto> getAllProductsByCategory(Long categoryId, Pageable pageable) {
 
-        List<ViewProductDto> result = productRepository.findByCategoryId(categoryId, pageable)
+        return productRepository.findByCategoryId(categoryId, pageable)
                 .stream().map(ViewProductDto::new)
                 .collect(Collectors.toList());
-        return result;
     }
 
     @Override
     public List<ViewProductDto> searchProductByName(Long categoryId, String name) {
-        List<ViewProductDto> result = productRepository.findByCategoryIdAndNameContainingIgnoreCase(categoryId, name)
+        return productRepository.findByCategoryIdAndNameContainingIgnoreCase(categoryId, name)
                 .stream().map(ViewProductDto::new)
                 .collect(Collectors.toList());
-        return result;
+
     }
 
 

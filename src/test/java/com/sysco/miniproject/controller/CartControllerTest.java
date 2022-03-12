@@ -85,7 +85,7 @@ class CartControllerTest {
 
         this.mvc.perform(get("/api/cart/view/1"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.total").value(11))
+                .andExpect(jsonPath("$.totalPrice").value(11))
                 .andExpect(jsonPath("$.products",hasSize(3)));
 
     }

@@ -2,7 +2,18 @@ plugins {
     id 'org.springframework.boot' version '2.6.4'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
+    id "org.sonarqube" version "2.7"
+    id "com.palantir.docker" version "0.22.0"
 }
+
+docker {
+    dependsOn bootJar
+    name "${project.name}:${version}"
+    dockerfile file('src/docker/Dockerfile')
+    copySpec.from(jar).rename(".*", "app.jar")
+    buildArgs(['JAR_FILE': "app.jar"])
+}
+
 
 group = 'com.sysco'
 version = '0.0.1-SNAPSHOT'
@@ -17,6 +28,7 @@ configurations {
 repositories {
     mavenCentral()
 }
+
 
 dependencies {
 
@@ -35,7 +47,6 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-validation'
 
     implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.6.6'
-
 
 
     // https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt

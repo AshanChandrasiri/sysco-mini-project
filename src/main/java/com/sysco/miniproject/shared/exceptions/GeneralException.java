@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 public class GeneralException extends RuntimeException {
 
-    private int code;
+    private final int code;
 
     public GeneralException(String message) {
         super(message);

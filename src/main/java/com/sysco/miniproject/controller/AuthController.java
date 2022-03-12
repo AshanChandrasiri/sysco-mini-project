@@ -22,7 +22,7 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/signup")
-    public ResponseEntity<User> createUser(@Valid @RequestBody CreateUserDto req) {
+    ResponseEntity<User> createUser(@Valid @RequestBody CreateUserDto req) {
         log.info("request to create user, {}", req);
         User result = authService.signUp(req);
         return ResponseEntity.ok().body(result);
