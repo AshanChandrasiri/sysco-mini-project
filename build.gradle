@@ -6,8 +6,9 @@ plugins {
     id "com.palantir.docker" version "0.32.0"
 }
 
+
 docker {
-    dependsOn bootJar
+    dependsOn(bootJar)
     name "${project.name}:${version}"
     dockerfile file('src/docker/Dockerfile')
     copySpec.from(jar).rename(".*", "app.jar")
@@ -24,6 +25,7 @@ configurations {
         extendsFrom annotationProcessor
     }
 }
+
 
 repositories {
     mavenCentral()
