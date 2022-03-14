@@ -32,12 +32,12 @@ public class ErrorTranslator {
     }
 
 
-    @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<ErrorResponse> handleRuntimeException(RuntimeException ex) {
-
-        ErrorResponse response =  generateError(0, ex.getMessage());
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
-    }
+//    @ExceptionHandler(RuntimeException.class)
+//    public ResponseEntity<ErrorResponse> handleRuntimeException(RuntimeException ex) {
+//
+//        ErrorResponse response =  generateError(0, ex.getMessage());
+//        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+//    }
 
     private ErrorResponse generateError(int code, String msg) {
         return new ErrorResponse(code, msg);
