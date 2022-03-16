@@ -21,4 +21,7 @@ public class Category {
 
     private String name;
 
+    @Column(length = 500)
+    private String imageUrl;
+
 }

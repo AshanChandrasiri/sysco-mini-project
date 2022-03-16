@@ -43,6 +43,8 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 
                 JwtAuthenticationToken authentication = (JwtAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
 
+
+
                 List<GrantedAuthority> grantedAuthorities = userDetails.getAuthorities().stream().map(
                         grantedAuthority -> new SimpleGrantedAuthority(grantedAuthority.getAuthority().toUpperCase())
                 ).collect(Collectors.toList());

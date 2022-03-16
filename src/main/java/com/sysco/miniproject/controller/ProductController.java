@@ -37,7 +37,7 @@ public class ProductController {
         return ResponseEntity.ok().body(result);
     }
 
-    @GetMapping("/product/all")
+    @GetMapping("/category/all")
     public ResponseEntity<List<Category>> getAllCategories() {
         log.info("request to get all categories");
         return ResponseEntity.ok().body(productService.getAllCategories());

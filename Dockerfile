@@ -1,6 +1,6 @@
 FROM adoptopenjdk/openjdk11:alpine-jre
 
-ARG JAR_FILE
+ARG JAR_FILE=build/libs/miniproject-0.0.1-SNAPSHOT.jar
 
 WORKDIR /target
 

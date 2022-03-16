@@ -23,5 +23,17 @@ public class CreateProductDto {
     @NotNull
     private double price;
 
+    @NotBlank
     private String image;
+
+    @NotBlank
+    private String unit;
+
+    @NotBlank
+    private String producer;
+
+    @NotBlank
+    private String producerImage;
+
+    private String description;
 }

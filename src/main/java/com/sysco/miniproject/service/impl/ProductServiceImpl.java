@@ -42,6 +42,10 @@ public class ProductServiceImpl implements ProductService {
         product.setPrice(req.getPrice());
         product.setImage(req.getImage());
         product.setCategory(getCategoryById(req.getCategoryId()));
+        product.setUnit(req.getUnit());
+        product.setDescription(req.getDescription());
+        product.setProducer(req.getProducer());
+        product.setProducerImage(req.getProducerImage());
         return productRepository.save(product);
     }
 

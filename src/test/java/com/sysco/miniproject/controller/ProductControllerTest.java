@@ -46,7 +46,7 @@ class ProductControllerTest {
     @Test
     void searchProductByName() throws Exception {
 
-        Category category1 = new Category(1L, "ice-cream");
+        Category category1 = new Category(1L, "ice-cream", "");
         Product product1 = new Product(1L, "chocolate ice cream", 2, "", category1);
         Product product2 = new Product(2L, "strawberry ice cream", 3, "", category1);
 

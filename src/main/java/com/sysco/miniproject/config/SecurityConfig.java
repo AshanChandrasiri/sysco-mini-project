@@ -17,6 +17,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import static com.sysco.miniproject.security.ApiSpec.NonSecuredGetApis;
 import static com.sysco.miniproject.security.ApiSpec.NonSecuredPostApis;
@@ -54,7 +56,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(HttpSecurity http) throws Exception {
 
-        http.cors().disable()
+        http.cors().and()
                 .csrf().disable()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
@@ -72,6 +74,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.addFilterBefore(authenticationJwtTokenFilter(), SecurityContextHolderAwareRequestFilter.class);
 
     }
+
 
     @Override
     public void configure(WebSecurity web) {
