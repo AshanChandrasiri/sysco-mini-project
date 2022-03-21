@@ -1,13 +1,15 @@
 package com.sysco.miniproject.security.jwt;
 
 
+import com.sysco.miniproject.aws.cognito.JwtToken;
 import com.sysco.miniproject.security.services.UserDetailsServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -16,6 +18,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 public class AuthTokenFilter extends OncePerRequestFilter {
@@ -31,19 +35,30 @@ public class AuthTokenFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
         try {
             String jwt = parseJwt(request);
-            if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
-                String username = jwtUtils.getUserNameFromJwtToken(jwt);
 
+            if (jwt != null) {
+
+                String username = JwtToken.getUserNameFromJwtToken(jwt);
                 UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-                UsernamePasswordAuthenticationToken authentication =
-                        new UsernamePasswordAuthenticationToken(
-                                userDetails,
-                                null,
-                                userDetails.getAuthorities());
-                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
-                SecurityContextHolder.getContext().setAuthentication(authentication);
+                JwtAuthenticationToken authentication = (JwtAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
+
+
+
+                List<GrantedAuthority> grantedAuthorities = userDetails.getAuthorities().stream().map(
+                        grantedAuthority -> new SimpleGrantedAuthority(grantedAuthority.getAuthority().toUpperCase())
+                ).collect(Collectors.toList());
+
+
+                JwtAuthenticationToken customJwtAuthenticationToken = new JwtAuthenticationToken(authentication.getToken(), grantedAuthorities);
+                customJwtAuthenticationToken.setAuthenticated(true);
+                customJwtAuthenticationToken.setDetails(userDetails);
+
+                SecurityContextHolder.getContext().setAuthentication(customJwtAuthenticationToken);
+
             }
+
+
         } catch (Exception e) {
             logger.error("Cannot set user authentication: {}", e);
         }

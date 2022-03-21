@@ -103,6 +103,12 @@ public class CartServiceImpl implements CartService {
                 .getUsersAllCarts(currentUser.getId());
     }
 
+    @Override
+    public void removeCart(Long cartId) {
+        User currentUser = authService.getContextUser();
+        cartRepository.deleteByIdAndUserId(cartId, currentUser.getId());
+    }
+
     private CartProductViewDto convert(CartProduct cp) {
         CartProductViewDto dto = new CartProductViewDto();
         Product product = cp.getProduct();

@@ -77,7 +77,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     private UserDetailsImpl getUserFromContext() {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return (UserDetailsImpl) principal;
+        Object details = SecurityContextHolder.getContext().getAuthentication().getDetails();
+        return (UserDetailsImpl) details;
     }
 }

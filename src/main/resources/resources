@@ -1,4 +1,5 @@
 sudo snap stop docker
-
-
 jar build command: sudo ./gradlew docker -Pversion=0.02
+
+updated ecr push command
+sudo aws ecr get-login-password --region us-east-1 | sudo docker login -u AWS -p $(aws ecr get-login-password --region us-east-1) 730492015407.dkr.ecr.us-east-1.amazonaws.com

@@ -37,7 +37,19 @@ public class ProductController {
         return ResponseEntity.ok().body(result);
     }
 
-    @GetMapping("/product/all")
+    @GetMapping("/category/{id}")
+    public ResponseEntity<Category> getCategoryById(@PathVariable Long id) {
+        log.info("request to get all categories");
+        return ResponseEntity.ok().body(productService.getCategoryById(id));
+    }
+
+    @GetMapping("/product/{id}")
+    public ResponseEntity<Product> getProductById(@PathVariable Long id) {
+        log.info("request to get all categories");
+        return ResponseEntity.ok().body(productService.getProductById(id));
+    }
+
+    @GetMapping("/category/all")
     public ResponseEntity<List<Category>> getAllCategories() {
         log.info("request to get all categories");
         return ResponseEntity.ok().body(productService.getAllCategories());
@@ -50,7 +62,7 @@ public class ProductController {
     }
 
     @GetMapping("/product/search/{categoryId}/{name}")
-    public ResponseEntity<List<ViewProductDto>> searchProductByName( @PathVariable Long categoryId, @PathVariable String name) {
+    public ResponseEntity<List<ViewProductDto>> searchProductByName(@PathVariable Long categoryId, @PathVariable String name) {
         log.info("request to get all product of the category, {}", categoryId);
         return ResponseEntity.ok().body(productService.searchProductByName(categoryId, name));
     }

@@ -30,4 +30,13 @@ public class Product {
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private Category category;
 
+    private String unit;
+
+    private String producer;
+
+    private String producerImage;
+
+    private String description;
+
+
 }
