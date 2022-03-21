@@ -17,6 +17,8 @@ public interface ProductService {
 
     Product getProductById(Long id);
 
+    Category getCategoryById(Long id);
+
     List<Category> getAllCategories();
 
     List<ViewProductDto> getAllProductsByCategory(Long categoryId, Pageable pageable);

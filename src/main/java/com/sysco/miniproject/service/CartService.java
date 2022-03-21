@@ -20,4 +20,6 @@ public interface CartService {
     CartViewDto viewCart(Long cartId);
 
     List<CartDetails> getUserCarts();
+
+    void removeCart(Long cartId);
 }

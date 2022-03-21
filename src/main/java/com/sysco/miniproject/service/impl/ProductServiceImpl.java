@@ -75,8 +75,8 @@ public class ProductServiceImpl implements ProductService {
 
     }
 
-
-    private Category getCategoryById(Long categoryId) {
+    @Override
+    public Category getCategoryById(Long categoryId) {
         return categoryRepository.findById(categoryId)
                 .orElseThrow(() -> new NotFoundException("Invalid category id"));
     }

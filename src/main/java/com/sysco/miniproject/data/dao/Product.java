@@ -24,13 +24,13 @@ public class Product {
 
     private double price;
 
-    private String unit;
-
     @Column(length = 800)
     private String image;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private Category category;
+
+    private String unit;
 
     private String producer;
 
