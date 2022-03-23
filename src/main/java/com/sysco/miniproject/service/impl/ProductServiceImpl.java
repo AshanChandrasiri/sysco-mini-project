@@ -31,13 +31,21 @@ public class ProductServiceImpl implements ProductService {
     public Category createCategory(CreateCategoryDto req) {
 
         Category category = new Category();
+        if (req.getId() != null) {
+            category = getCategoryById(req.getId());
+        }
         category.setName(req.getName());
         return categoryRepository.save(category);
     }
 
     @Override
     public Product createProduct(CreateProductDto req) {
+
         Product product = new Product();
+        if (req.getId() != null) {
+            product = getProduct(req.getId());
+        }
+
         product.setName(req.getName());
         product.setPrice(req.getPrice());
         product.setImage(req.getImage());
@@ -68,8 +76,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ViewProductDto> searchProductByName(Long categoryId, String name) {
-        return productRepository.findByCategoryIdAndNameContainingIgnoreCase(categoryId, name)
+    public List<ViewProductDto> searchProductByName(Long categoryId, String name, Pageable pageable) {
+        return productRepository.findByCategoryIdAndNameContainingIgnoreCase(categoryId, name, pageable)
                 .stream().map(ViewProductDto::new)
                 .collect(Collectors.toList());
 

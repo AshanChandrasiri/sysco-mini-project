@@ -52,10 +52,12 @@ public class CartServiceImpl implements CartService {
     @Transactional
     public CartProduct addToCard(AddToCartDto req) {
 
-        CartProduct cartProduct = cartProductRepository.findByCartIdAndProductId(req.getCartId(), req.getProductId())
+        User currentUser = authService.getContextUser();
+
+        CartProduct cartProduct = cartProductRepository.findByCartIdAndCartUserIdAndProductId(req.getCartId(), currentUser.getId(), req.getProductId())
                 .orElseGet(() -> {
                     CartProduct cp = new CartProduct();
-                    cp.setCart(getCartById(req.getCartId()));
+                    cp.setCart(getUserCartById(req.getCartId(), currentUser.getId()));
                     cp.setProduct(productService.getProductById(req.getProductId()));
                     cp.setQuantity(0);
                     return cp;
@@ -78,8 +80,7 @@ public class CartServiceImpl implements CartService {
 
         User currentUser = authService.getContextUser();
 
-        Cart cart = cartRepository.findByIdAndUserId(cartId, currentUser.getId())
-                .orElseThrow(() -> new NotFoundException("Cart does not found for user"));
+        Cart cart = getUserCartById(cartId, currentUser.getId());
 
         CartViewDto dto = new CartViewDto();
         dto.setClosed(cart.isOpen());
@@ -124,5 +125,12 @@ public class CartServiceImpl implements CartService {
     private Cart getCartById(Long id) {
         return cartRepository.findById(id)
                 .orElseThrow(() -> new BadRequestException("Invalid cart"));
+    }
+
+    private Cart getUserCartById(Long cartId, Long userId) {
+
+        return cartRepository.findByIdAndUserId(cartId, userId)
+                .orElseThrow(() -> new NotFoundException("Cart does not found for user"));
+
     }
 }

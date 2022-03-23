@@ -1,5 +1,7 @@
 package com.sysco.miniproject.respository.models;
 
+import java.time.ZonedDateTime;
+
 public interface CartDetails {
 
     Long getId();
@@ -9,5 +11,7 @@ public interface CartDetails {
     int getTotalItems();
 
     double getTotalPrice();
+
+    String getLastUpdateDate();
 
 }

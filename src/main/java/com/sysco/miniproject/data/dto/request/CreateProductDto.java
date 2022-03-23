@@ -14,6 +14,8 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 public class CreateProductDto {
 
+    private Long id;
+
     @NotNull
     private Long categoryId;
 

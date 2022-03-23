@@ -23,6 +23,6 @@ public interface ProductService {
 
     List<ViewProductDto> getAllProductsByCategory(Long categoryId, Pageable pageable);
 
-    List<ViewProductDto> searchProductByName(Long categoryId, String name);
+    List<ViewProductDto> searchProductByName(Long categoryId, String name, Pageable pageable);
 
 }
