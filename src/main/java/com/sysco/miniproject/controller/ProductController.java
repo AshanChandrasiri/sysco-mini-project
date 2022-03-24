@@ -62,8 +62,8 @@ public class ProductController {
     }
 
     @GetMapping("/product/search/{categoryId}/{name}")
-    public ResponseEntity<List<ViewProductDto>> searchProductByName(@PathVariable Long categoryId, @PathVariable String name) {
+    public ResponseEntity<List<ViewProductDto>> searchProductByName(@PathVariable Long categoryId, @PathVariable String name, Pageable pageable) {
         log.info("request to get all product of the category, {}", categoryId);
-        return ResponseEntity.ok().body(productService.searchProductByName(categoryId, name));
+        return ResponseEntity.ok().body(productService.searchProductByName(categoryId, name, pageable));
     }
 }

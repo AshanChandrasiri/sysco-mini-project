@@ -12,16 +12,21 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "category")
-public class Category extends BaseEntity{
+@Table(name = "manufacturer")
+public class Manufacturer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(length = 100)
     private String name;
 
-    @Column(length = 500)
-    private String imageUrl;
+    @Column(length = 800)
+    private String image;
+
+    @Column(length = 200)
+    private String address;
+
 
 }

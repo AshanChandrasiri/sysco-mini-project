@@ -3,6 +3,7 @@ package com.sysco.miniproject.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sysco.miniproject.data.dao.Category;
+import com.sysco.miniproject.data.dao.Manufacturer;
 import com.sysco.miniproject.data.dao.Product;
 import com.sysco.miniproject.data.dto.request.CreateProductDto;
 import com.sysco.miniproject.respository.CategoryRepository;
@@ -12,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -46,11 +49,16 @@ class ProductControllerTest {
     @Test
     void searchProductByName() throws Exception {
 
-        Category category1 = new Category(1L, "ice-cream", "");
-        Product product1 = new Product(1L, "chocolate ice cream", 2, "", category1, null, null, null, null);
-        Product product2 = new Product(2L, "strawberry ice cream", 3, "", category1, null, null, null, null);
+        Pageable pageable = PageRequest.of(0,20);
 
-        given(productRepository.findByCategoryIdAndNameContainingIgnoreCase(1L, "ice"))
+        Manufacturer m1 = new Manufacturer(1l, "m1", "", "");
+        Manufacturer m2 = new Manufacturer(2l, "m2", "", "");
+
+        Category category1 = new Category(1L, "ice-cream", "");
+        Product product1 = new Product(1L, "chocolate ice cream", 2, "", category1, m1, null);
+        Product product2 = new Product(2L, "strawberry ice cream", 3, "", category1, m1, null);
+
+        given(productRepository.findByCategoryIdAndNameContainingIgnoreCase(1L, "ice", pageable))
                 .willReturn(Arrays.asList(product1, product2));
 
         this.mvc.perform(get("/api/product/search/1/ice"))
@@ -59,20 +67,20 @@ class ProductControllerTest {
                 .andExpect(jsonPath("$[0].*", hasSize(9)) // 1 object in thr result list has 5 fields
                 );
 
-        verify(productRepository).findByCategoryIdAndNameContainingIgnoreCase(1L, "ice");
+        verify(productRepository).findByCategoryIdAndNameContainingIgnoreCase(1L, "ice", pageable);
     }
 
-
-//    @Test
-    void createProduct() throws Exception {
-        CreateProductDto req = new CreateProductDto(2L, "abs", 2.0, "", "", null, null, null);
-
-        given(categoryRepository.findById(2L))
-                .willReturn(Optional.empty());
-
-        this.mvc.perform(post("/api/product/create")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(req)))
-                .andExpect(status().isNotFound());
-    }
+//
+////    @Test
+//    void createProduct() throws Exception {
+//        CreateProductDto req = new CreateProductDto(2L, "abs", 2.0, "", "", null, null, null);
+//
+//        given(categoryRepository.findById(2L))
+//                .willReturn(Optional.empty());
+//
+//        this.mvc.perform(post("/api/product/create")
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .content(objectMapper.writeValueAsString(req)))
+//                .andExpect(status().isNotFound());
+//    }
 }

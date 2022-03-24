@@ -7,7 +7,7 @@ import javax.validation.constraints.NotBlank;
 
 @Getter
 @Setter
-public class CreateCategoryDto {
+public class CreateManufacturerDto {
 
     private Long id;
 
@@ -16,4 +16,8 @@ public class CreateCategoryDto {
 
     @NotBlank
     private String image;
+
+    @NotBlank
+    private String address;
+
 }
