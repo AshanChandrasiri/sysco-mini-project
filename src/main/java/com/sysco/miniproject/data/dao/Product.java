@@ -30,13 +30,16 @@ public class Product extends BaseEntity{
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private Category category;
 
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private Manufacturer manufacturer;
+
     private String unit;
 
-    private String producer;
+//    private String producer;
 
-    private String producerImage;
+//    private String producerImage;
 
-    private String description;
+//    private String description;
 
 
 }

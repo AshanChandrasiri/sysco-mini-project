@@ -19,6 +19,9 @@ public class CreateProductDto {
     @NotNull
     private Long categoryId;
 
+    @NotNull
+    private Long manufacturerId;
+
     @NotBlank
     private String name;
 
@@ -28,14 +31,4 @@ public class CreateProductDto {
     @NotBlank
     private String image;
 
-    @NotBlank
-    private String unit;
-
-    @NotBlank
-    private String producer;
-
-    @NotBlank
-    private String producerImage;
-
-    private String description;
 }

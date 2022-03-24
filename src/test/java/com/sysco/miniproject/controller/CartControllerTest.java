@@ -43,9 +43,9 @@ class CartControllerTest {
 
         Cart cart = new Cart(1L, "grocery", false, null, null);
 
-        Product product1 = new Product(1l, "p1", 1, "", null, null, null, null, null);
-        Product product2 = new Product(2l, "p2", 2, "", null, null, null, null, null);
-        Product product3 = new Product(3l, "p3", 3, "", null, null, null, null, null);
+        Product product1 = new Product(1l, "p1", 1, "", null, null, null);
+        Product product2 = new Product(2l, "p2", 2, "", null, null, null);
+        Product product3 = new Product(3l, "p3", 3, "", null, null, null);
 
         CartProduct cp1 = new CartProduct(1L, cart, product1, 2);
         CartProduct cp2 = new CartProduct(2L, cart, product2, 3);
@@ -67,9 +67,9 @@ class CartControllerTest {
 
         Cart cart = new Cart(1L, "grocery", false, user, null);
 
-        Product product1 = new Product(1l, "p1", 1, "", null, null, null, null, null);
-        Product product2 = new Product(2l, "p2", 2, "", null, null, null, null, null);
-        Product product3 = new Product(3l, "p3", 3, "", null, null, null, null, null);
+        Product product1 = new Product(1l, "p1", 1, "", null, null, null);
+        Product product2 = new Product(2l, "p2", 2, "", null, null, null);
+        Product product3 = new Product(3l, "p3", 3, "", null, null, null);
 
         CartProduct cp1 = new CartProduct(1L, cart, product1, 2);
         CartProduct cp2 = new CartProduct(2L, cart, product2, 3);

@@ -8,3 +8,6 @@ services:
 #      - SPRING_PROFILES_ACTIVE=prod
     ports:
       - "8080:8080"
+
+
+      

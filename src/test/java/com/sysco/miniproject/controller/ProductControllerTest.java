@@ -3,6 +3,7 @@ package com.sysco.miniproject.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sysco.miniproject.data.dao.Category;
+import com.sysco.miniproject.data.dao.Manufacturer;
 import com.sysco.miniproject.data.dao.Product;
 import com.sysco.miniproject.data.dto.request.CreateProductDto;
 import com.sysco.miniproject.respository.CategoryRepository;
@@ -50,9 +51,12 @@ class ProductControllerTest {
 
         Pageable pageable = PageRequest.of(0,20);
 
+        Manufacturer m1 = new Manufacturer(1l, "m1", "", "");
+        Manufacturer m2 = new Manufacturer(2l, "m2", "", "");
+
         Category category1 = new Category(1L, "ice-cream", "");
-        Product product1 = new Product(1L, "chocolate ice cream", 2, "", category1, null, null, null, null);
-        Product product2 = new Product(2L, "strawberry ice cream", 3, "", category1, null, null, null, null);
+        Product product1 = new Product(1L, "chocolate ice cream", 2, "", category1, m1, null);
+        Product product2 = new Product(2L, "strawberry ice cream", 3, "", category1, m1, null);
 
         given(productRepository.findByCategoryIdAndNameContainingIgnoreCase(1L, "ice", pageable))
                 .willReturn(Arrays.asList(product1, product2));
@@ -66,17 +70,17 @@ class ProductControllerTest {
         verify(productRepository).findByCategoryIdAndNameContainingIgnoreCase(1L, "ice", pageable);
     }
 
-
-//    @Test
-    void createProduct() throws Exception {
-        CreateProductDto req = new CreateProductDto(2L, "abs", 2.0, "", "", null, null, null);
-
-        given(categoryRepository.findById(2L))
-                .willReturn(Optional.empty());
-
-        this.mvc.perform(post("/api/product/create")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(req)))
-                .andExpect(status().isNotFound());
-    }
+//
+////    @Test
+//    void createProduct() throws Exception {
+//        CreateProductDto req = new CreateProductDto(2L, "abs", 2.0, "", "", null, null, null);
+//
+//        given(categoryRepository.findById(2L))
+//                .willReturn(Optional.empty());
+//
+//        this.mvc.perform(post("/api/product/create")
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .content(objectMapper.writeValueAsString(req)))
+//                .andExpect(status().isNotFound());
+//    }
 }
