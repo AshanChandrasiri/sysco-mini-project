@@ -37,7 +37,7 @@ public class Cart extends BaseEntity{
     private User user;
 
     @JsonIgnore
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "cart")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "cart", cascade = CascadeType.REMOVE)
     private List<CartProduct> cartProducts;
 
 }

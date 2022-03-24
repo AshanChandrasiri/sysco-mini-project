@@ -31,4 +31,12 @@ public class CreateProductDto {
     @NotBlank
     private String image;
 
+
+    public CreateProductDto(Long categoryId, Long manufacturerId, String name, double price, String image) {
+        this.categoryId = categoryId;
+        this.manufacturerId = manufacturerId;
+        this.name = name;
+        this.price = price;
+        this.image = image;
+    }
 }

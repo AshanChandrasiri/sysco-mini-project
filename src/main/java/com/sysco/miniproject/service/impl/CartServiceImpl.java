@@ -105,6 +105,7 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
+    @Transactional
     public void removeCart(Long cartId) {
         User currentUser = authService.getContextUser();
         cartRepository.deleteByIdAndUserId(cartId, currentUser.getId());

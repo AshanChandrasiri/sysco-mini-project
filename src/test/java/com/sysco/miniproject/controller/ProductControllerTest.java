@@ -1,12 +1,13 @@
 package com.sysco.miniproject.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sysco.miniproject.data.dao.Category;
 import com.sysco.miniproject.data.dao.Manufacturer;
 import com.sysco.miniproject.data.dao.Product;
+import com.sysco.miniproject.data.dto.request.CreateCategoryDto;
 import com.sysco.miniproject.data.dto.request.CreateProductDto;
 import com.sysco.miniproject.respository.CategoryRepository;
+import com.sysco.miniproject.respository.ManufacturerRepository;
 import com.sysco.miniproject.respository.ProductRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 
 import java.util.Arrays;
 import java.util.Optional;
@@ -43,13 +43,70 @@ class ProductControllerTest {
     @MockBean
     private CategoryRepository categoryRepository;
 
+    @MockBean
+    private ManufacturerRepository manufacturerRepository;
+
     @Autowired
     private ObjectMapper objectMapper;
+
+
+    /*
+     * Test update category record which is not available
+     * */
+    @Test
+    void createCategory() throws Exception {
+
+        CreateCategoryDto req = new CreateCategoryDto(1L, "c1", "http//:image.lk");
+
+        given(categoryRepository.findById(1L))
+                .willReturn(Optional.empty());
+
+
+        this.mvc.perform(post("/api/category/create")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(req)))
+                .andExpect(status().isNotFound());
+
+        verify(categoryRepository).findById(1L);
+    }
+
+    @Test
+    void testCreateProductWhenInvalidCategoryId() throws Exception {
+        CreateProductDto req = new CreateProductDto(2L, 2l, 1l, "name", 2.0, "http://image.jpg");
+
+        given(categoryRepository.findById(2L))
+                .willReturn(Optional.empty());
+
+        this.mvc.perform(post("/api/product/create")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(req)))
+                .andExpect(status().isNotFound());
+
+        verify(categoryRepository).findById(2L);
+    }
+
+
+    @Test
+    void testCreateProductInvalidManufactureId() throws Exception {
+
+        CreateProductDto req = new CreateProductDto(2l, 1l, "name", 2.0, "http://image.jpg");
+
+        given(manufacturerRepository.findById(1l))
+                .willReturn(Optional.empty());
+
+        this.mvc.perform(post("/api/product/create")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(req)))
+                .andExpect(status().isNotFound());
+
+        verify(manufacturerRepository).findById(1l);
+    }
+
 
     @Test
     void searchProductByName() throws Exception {
 
-        Pageable pageable = PageRequest.of(0,20);
+        Pageable pageable = PageRequest.of(0, 20);
 
         Manufacturer m1 = new Manufacturer(1l, "m1", "", "");
         Manufacturer m2 = new Manufacturer(2l, "m2", "", "");
@@ -70,17 +127,25 @@ class ProductControllerTest {
         verify(productRepository).findByCategoryIdAndNameContainingIgnoreCase(1L, "ice", pageable);
     }
 
-//
-////    @Test
-//    void createProduct() throws Exception {
-//        CreateProductDto req = new CreateProductDto(2L, "abs", 2.0, "", "", null, null, null);
-//
-//        given(categoryRepository.findById(2L))
-//                .willReturn(Optional.empty());
-//
-//        this.mvc.perform(post("/api/product/create")
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .content(objectMapper.writeValueAsString(req)))
-//                .andExpect(status().isNotFound());
-//    }
+    @Test
+    void testGetAllProductsByCategory() throws Exception {
+        Pageable pageable = PageRequest.of(0, 20);
+
+        Manufacturer m1 = new Manufacturer(1l, "m1", "", "");
+
+        Category category1 = new Category(1L, "ice-cream", "");
+        Product product1 = new Product(1L, "chocolate ice cream", 2, "", category1, m1, null);
+
+        given(productRepository.findByCategoryId(1L, pageable))
+                .willReturn(Arrays.asList(product1));
+
+        this.mvc.perform(get("/api/product/all/1"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(1))) // 2 items in the response
+                .andExpect(jsonPath("$[0].name").isString())
+                .andExpect(jsonPath("$[0].name").value(product1.getName()))  // 1 object in thr result list has 5 fields
+        ;
+
+    }
+
 }
