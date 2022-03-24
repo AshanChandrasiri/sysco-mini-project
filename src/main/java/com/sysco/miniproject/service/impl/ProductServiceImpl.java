@@ -49,13 +49,15 @@ public class ProductServiceImpl implements ProductService {
             product = getProduct(req.getId());
         }
 
+        product.setCategory(getCategoryById(req.getCategoryId()));
+
         Manufacturer manufacturer = manufacturerService.getManufactureById(req.getManufacturerId());
         product.setManufacturer(manufacturer);
 
         product.setName(req.getName());
         product.setPrice(req.getPrice());
         product.setImage(req.getImage());
-        product.setCategory(getCategoryById(req.getCategoryId()));
+
         product.setUnit("$");
 
         return productRepository.save(product);

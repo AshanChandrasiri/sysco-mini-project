@@ -35,11 +35,4 @@ public class Product extends BaseEntity{
 
     private String unit;
 
-//    private String producer;
-
-//    private String producerImage;
-
-//    private String description;
-
-
 }

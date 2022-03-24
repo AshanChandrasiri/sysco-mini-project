@@ -4,6 +4,7 @@ plugins {
     id 'java'
     id "org.sonarqube" version "3.0"
     id "com.palantir.docker" version "0.32.0"
+    id "jacoco"
 }
 
 
@@ -61,6 +62,29 @@ dependencies {
 
 }
 
+sonarqube{
+    properties{
+        property "sonar.login", "605e1ab2eb3433af9a6ff5af359c8683d0ab5e97')}"
+        property "sonar.projectKey", "sysco-mini-project-v1"
+        property "sonar.projectName", "sysco-mini-project-v1"
+        property "sonar.coverage.jacoco.xmlReportPaths", "${project.buildDir}/reports/jacoco.xml"
+        property "sonar.coverage.exclusions", "**/cli/**, **/model/**, **/bean/**, **/protobuf/**, **/constant/**, **/config/**, **/enums/**, **/Application.java, **/StatsFilter.java"
+
+    }
+}
+
+
 tasks.named('test') {
     useJUnitPlatform()
 }
+
+tasks.named('sonarqube').configure {
+    dependsOn test
+}
+
+jacocoTestReport {
+ reports {
+    xml.enabled true
+ }
+}
+test.finalizedBy jacocoTestReport

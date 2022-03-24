@@ -15,7 +15,6 @@ import com.sysco.miniproject.service.AuthService;
 import com.sysco.miniproject.service.CartService;
 import com.sysco.miniproject.service.ProductService;
 import com.sysco.miniproject.shared.Utils;
-import com.sysco.miniproject.shared.exceptions.BadRequestException;
 import com.sysco.miniproject.shared.exceptions.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -121,11 +120,6 @@ public class CartServiceImpl implements CartService {
         dto.setUnitPrice(product.getPrice());
         dto.setQuantity(cp.getQuantity());
         return dto;
-    }
-
-    private Cart getCartById(Long id) {
-        return cartRepository.findById(id)
-                .orElseThrow(() -> new BadRequestException("Invalid cart"));
     }
 
     private Cart getUserCartById(Long cartId, Long userId) {
