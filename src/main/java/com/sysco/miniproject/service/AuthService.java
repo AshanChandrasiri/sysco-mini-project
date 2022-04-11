@@ -7,10 +7,6 @@ import com.sysco.miniproject.data.dto.response.SingInResDto;
 
 public interface AuthService {
 
-    User signUp(CreateUserDto req);
-
-    SingInResDto signIn(SignInReqDto req);
-
     User getContextUser();
 
 }

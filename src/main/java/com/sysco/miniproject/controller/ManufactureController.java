@@ -1,8 +1,6 @@
 package com.sysco.miniproject.controller;
 
-import com.sysco.miniproject.data.dao.Cart;
 import com.sysco.miniproject.data.dao.Manufacturer;
-import com.sysco.miniproject.data.dto.request.CreateCartDto;
 import com.sysco.miniproject.data.dto.request.CreateManufacturerDto;
 import com.sysco.miniproject.service.ManufacturerService;
 import lombok.RequiredArgsConstructor;
