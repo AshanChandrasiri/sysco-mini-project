@@ -1,6 +1,7 @@
 package com.sysco.miniproject.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sysco.miniproject.data.dao.Cart;
 import com.sysco.miniproject.data.dao.Category;
 import com.sysco.miniproject.data.dao.Manufacturer;
 import com.sysco.miniproject.data.dao.Product;
@@ -72,8 +73,9 @@ class ProductControllerTest {
 
     @Test
     void testCreateProductWhenInvalidCategoryId() throws Exception {
-        CreateProductDto req = new CreateProductDto(2L, 2l, 1l, "name", 2.0, "http://image.jpg");
+        CreateProductDto req = new CreateProductDto(2l, 1l, "name", 2.0, "http://image.jpg");
 
+//        Category category = new Category(2L, "cart1", null);
         given(categoryRepository.findById(2L))
                 .willReturn(Optional.empty());
 
@@ -90,6 +92,10 @@ class ProductControllerTest {
     void testCreateProductInvalidManufactureId() throws Exception {
 
         CreateProductDto req = new CreateProductDto(2l, 1l, "name", 2.0, "http://image.jpg");
+
+        Category category = new Category(2L, "cart1", null);
+        given(categoryRepository.findById(2L))
+                .willReturn(Optional.of(category));
 
         given(manufacturerRepository.findById(1l))
                 .willReturn(Optional.empty());
@@ -139,7 +145,7 @@ class ProductControllerTest {
         given(productRepository.findByCategoryId(1L, pageable))
                 .willReturn(Arrays.asList(product1));
 
-        this.mvc.perform(get("/api/product/all/1"))
+        this.mvc.perform(get("/api/product/all/" + category1.getId()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1))) // 2 items in the response
                 .andExpect(jsonPath("$[0].name").isString())

@@ -30,5 +30,19 @@ public class CartProduct extends BaseEntity{
 
     private int quantity;
 
+    @Override
+    public int hashCode() {
+        return this.id.intValue();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof CartProduct) {
+            CartProduct c = (CartProduct) o;
+            return this.equals(c);
+        }
+        return false;
+    }
+
 
 }

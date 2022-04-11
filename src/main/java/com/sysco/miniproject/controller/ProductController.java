@@ -39,13 +39,13 @@ public class ProductController {
 
     @GetMapping("/category/{id}")
     public ResponseEntity<Category> getCategoryById(@PathVariable Long id) {
-        log.info("request to get all categories");
+        log.info("request to get all categories vy id");
         return ResponseEntity.ok().body(productService.getCategoryById(id));
     }
 
     @GetMapping("/product/{id}")
     public ResponseEntity<Product> getProductById(@PathVariable Long id) {
-        log.info("request to get all categories");
+        log.info("request to get all products by category id");
         return ResponseEntity.ok().body(productService.getProductById(id));
     }
 
