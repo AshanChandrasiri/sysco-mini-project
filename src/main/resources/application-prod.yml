@@ -26,7 +26,3 @@ spring:
 server:
   port: 8080
 
-bezkoder:
-  app:
-    jwtSecret: bezKoderSecretKey
-    jwtExpirationMs: 86400000
