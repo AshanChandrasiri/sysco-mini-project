@@ -15,7 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Table(name = "cart")
-public class Cart {
+public class Cart extends BaseEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,6 +30,9 @@ public class Cart {
     private User user;
 
     @JsonIgnore
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "cart")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "cart", cascade = CascadeType.REMOVE)
     private List<CartProduct> cartProducts;
+
 }
+
+

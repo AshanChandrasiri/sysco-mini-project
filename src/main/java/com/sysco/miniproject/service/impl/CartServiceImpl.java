@@ -15,7 +15,6 @@ import com.sysco.miniproject.service.AuthService;
 import com.sysco.miniproject.service.CartService;
 import com.sysco.miniproject.service.ProductService;
 import com.sysco.miniproject.shared.Utils;
-import com.sysco.miniproject.shared.exceptions.BadRequestException;
 import com.sysco.miniproject.shared.exceptions.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -52,10 +51,12 @@ public class CartServiceImpl implements CartService {
     @Transactional
     public CartProduct addToCard(AddToCartDto req) {
 
-        CartProduct cartProduct = cartProductRepository.findByCartIdAndProductId(req.getCartId(), req.getProductId())
+        User currentUser = authService.getContextUser();
+
+        CartProduct cartProduct = cartProductRepository.findByCartIdAndCartUserIdAndProductId(req.getCartId(), currentUser.getId(), req.getProductId())
                 .orElseGet(() -> {
                     CartProduct cp = new CartProduct();
-                    cp.setCart(getCartById(req.getCartId()));
+                    cp.setCart(getUserCartById(req.getCartId(), currentUser.getId()));
                     cp.setProduct(productService.getProductById(req.getProductId()));
                     cp.setQuantity(0);
                     return cp;
@@ -78,8 +79,7 @@ public class CartServiceImpl implements CartService {
 
         User currentUser = authService.getContextUser();
 
-        Cart cart = cartRepository.findByIdAndUserId(cartId, currentUser.getId())
-                .orElseThrow(() -> new NotFoundException("Cart does not found for user"));
+        Cart cart = getUserCartById(cartId, currentUser.getId());
 
         CartViewDto dto = new CartViewDto();
         dto.setClosed(cart.isOpen());
@@ -103,6 +103,13 @@ public class CartServiceImpl implements CartService {
                 .getUsersAllCarts(currentUser.getId());
     }
 
+    @Override
+    @Transactional
+    public void removeCart(Long cartId) {
+        User currentUser = authService.getContextUser();
+        cartRepository.deleteByIdAndUserId(cartId, currentUser.getId());
+    }
+
     private CartProductViewDto convert(CartProduct cp) {
         CartProductViewDto dto = new CartProductViewDto();
         Product product = cp.getProduct();
@@ -115,8 +122,10 @@ public class CartServiceImpl implements CartService {
         return dto;
     }
 
-    private Cart getCartById(Long id) {
-        return cartRepository.findById(id)
-                .orElseThrow(() -> new BadRequestException("Invalid cart"));
+    private Cart getUserCartById(Long cartId, Long userId) {
+
+        return cartRepository.findByIdAndUserId(cartId, userId)
+                .orElseThrow(() -> new NotFoundException("Cart does not found for user"));
+
     }
 }

@@ -17,10 +17,12 @@ public interface ProductService {
 
     Product getProductById(Long id);
 
+    Category getCategoryById(Long id);
+
     List<Category> getAllCategories();
 
     List<ViewProductDto> getAllProductsByCategory(Long categoryId, Pageable pageable);
 
-    List<ViewProductDto> searchProductByName(Long categoryId, String name);
+    List<ViewProductDto> searchProductByName(Long categoryId, String name, Pageable pageable);
 
 }

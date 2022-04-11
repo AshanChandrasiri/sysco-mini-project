@@ -12,7 +12,14 @@ public class ApiSpec {
             "/api/auth/sign-in"
     };
 
-    public static final Supplier<String[]> NonSecuredGetApis = () -> new String[]{};
+    public static final Supplier<String[]> NonSecuredGetApis = () -> new String[]{
+            "/api/category/*",
+            "/api/category/all",
+            "/api/product/*",
+            "/api/product/all/**",
+            "/api/product/search/**"
+
+    };
 
 }
 

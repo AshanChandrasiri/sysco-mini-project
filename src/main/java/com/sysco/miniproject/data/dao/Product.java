@@ -13,7 +13,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Entity
 @Table(name = "product")
-public class Product {
+public class Product extends BaseEntity{
 
 
     @Id
@@ -29,5 +29,10 @@ public class Product {
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private Category category;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private Manufacturer manufacturer;
+
+    private String unit;
 
 }

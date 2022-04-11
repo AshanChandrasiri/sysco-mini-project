@@ -18,11 +18,24 @@ public class ViewProductDto {
 
     private String image;
 
-    public ViewProductDto(Product product){
+    private String unit;
+
+    private String producer;
+
+    private String producerImage;
+
+    private String address;
+
+    public ViewProductDto(Product product) {
         this.id = product.getId();
         this.name = product.getName();
         this.price = product.getPrice();
         this.image = product.getImage();
         this.categoryId = product.getCategory().getId();
+        this.unit = product.getUnit();
+        this.producer = product.getManufacturer().getName();
+        this.producerImage = product.getManufacturer().getImage();
+        this.address = product.getManufacturer().getAddress();
+
     }
 }

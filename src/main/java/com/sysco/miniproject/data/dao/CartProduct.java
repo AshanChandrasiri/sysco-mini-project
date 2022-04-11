@@ -14,7 +14,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Entity
 @Table(name = "cart_product")
-public class CartProduct {
+public class CartProduct extends BaseEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,5 +29,20 @@ public class CartProduct {
     private Product product;
 
     private int quantity;
+
+    @Override
+    public int hashCode() {
+        return this.id.intValue();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof CartProduct) {
+            CartProduct c = (CartProduct) o;
+            return this.equals(c);
+        }
+        return false;
+    }
+
 
 }

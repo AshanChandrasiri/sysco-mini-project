@@ -2,5 +2,27 @@ spring:
   application:
     name: sysco-miniproject-prod
 
+  datasource:
+    url: jdbc:mysql://sysco-mini-project.c26ez7jbwxoc.us-east-1.rds.amazonaws.com:3307/sysco_min_pro_${spring.profiles.active}?allowPublicKeyRetrieval=true&useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true
+    username: root
+    password: sY5coM1nIpr0Adm!n
+    driver-class-name: com.mysql.cj.jdbc.Driver
+#    driverclassname: com.mysql.cj.jdbc.Driver
+
+
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    database: MYSQL
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://cognito-idp.us-east-1.amazonaws.com/us-east-1_CPtxqjtL4
+
 server:
   port: 8080
+

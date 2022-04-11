@@ -1,13 +1,14 @@
 package com.sysco.miniproject.service.impl;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sysco.miniproject.data.dao.Category;
+import com.sysco.miniproject.data.dao.Manufacturer;
 import com.sysco.miniproject.data.dao.Product;
 import com.sysco.miniproject.data.dto.request.CreateCategoryDto;
 import com.sysco.miniproject.data.dto.request.CreateProductDto;
 import com.sysco.miniproject.data.dto.response.ViewProductDto;
 import com.sysco.miniproject.respository.CategoryRepository;
 import com.sysco.miniproject.respository.ProductRepository;
+import com.sysco.miniproject.service.ManufacturerService;
 import com.sysco.miniproject.service.ProductService;
 import com.sysco.miniproject.shared.exceptions.NotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -25,23 +26,40 @@ public class ProductServiceImpl implements ProductService {
 
     private final CategoryRepository categoryRepository;
 
-    private final ObjectMapper objectMapper;
+    private final ManufacturerService manufacturerService;
+
 
     @Override
     public Category createCategory(CreateCategoryDto req) {
 
         Category category = new Category();
+        if (req.getId() != null) {
+            category = getCategoryById(req.getId());
+        }
         category.setName(req.getName());
+        category.setImageUrl(req.getImage());
         return categoryRepository.save(category);
     }
 
     @Override
     public Product createProduct(CreateProductDto req) {
+
         Product product = new Product();
+        if (req.getId() != null) {
+            product = getProduct(req.getId());
+        }
+
+        product.setCategory(getCategoryById(req.getCategoryId()));
+
+        Manufacturer manufacturer = manufacturerService.getManufactureById(req.getManufacturerId());
+        product.setManufacturer(manufacturer);
+
         product.setName(req.getName());
         product.setPrice(req.getPrice());
         product.setImage(req.getImage());
-        product.setCategory(getCategoryById(req.getCategoryId()));
+
+        product.setUnit("$");
+
         return productRepository.save(product);
     }
 
@@ -64,15 +82,15 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ViewProductDto> searchProductByName(Long categoryId, String name) {
-        return productRepository.findByCategoryIdAndNameContainingIgnoreCase(categoryId, name)
+    public List<ViewProductDto> searchProductByName(Long categoryId, String name, Pageable pageable) {
+        return productRepository.findByCategoryIdAndNameContainingIgnoreCase(categoryId, name, pageable)
                 .stream().map(ViewProductDto::new)
                 .collect(Collectors.toList());
 
     }
 
-
-    private Category getCategoryById(Long categoryId) {
+    @Override
+    public Category getCategoryById(Long categoryId) {
         return categoryRepository.findById(categoryId)
                 .orElseThrow(() -> new NotFoundException("Invalid category id"));
     }

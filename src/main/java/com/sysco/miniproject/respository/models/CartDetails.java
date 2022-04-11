@@ -10,4 +10,6 @@ public interface CartDetails {
 
     double getTotalPrice();
 
+    String getLastUpdateDate();
+
 }

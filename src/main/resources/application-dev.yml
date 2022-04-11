@@ -3,7 +3,7 @@ spring:
     name: sysco-miniproject-dev
 
   datasource:
-    url: jdbc:mysql://173.82.57.186:3307/sysco_min_pro_${spring.profiles.active}?allowPublicKeyRetrieval=true&useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true
+    url: jdbc:mysql://localhost:3307/sysco_min_pro_${spring.profiles.active}?allowPublicKeyRetrieval=true&useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true
     username: root
     password: adlonRo0t123
     driverclassname: com.mysql.cj.jdbc.Driver
@@ -16,11 +16,12 @@ spring:
     hibernate:
       ddl-auto: update
 
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://cognito-idp.us-east-1.amazonaws.com/us-east-1_CPtxqjtL4
 
 server:
   port: 8080
 
-bezkoder:
-  app:
-    jwtSecret: bezKoderSecretKey
-    jwtExpirationMs: 86400000

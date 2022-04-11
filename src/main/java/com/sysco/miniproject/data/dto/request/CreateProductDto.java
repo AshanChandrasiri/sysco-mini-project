@@ -14,8 +14,13 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 public class CreateProductDto {
 
+    private Long id;
+
     @NotNull
     private Long categoryId;
+
+    @NotNull
+    private Long manufacturerId;
 
     @NotBlank
     private String name;
@@ -23,5 +28,15 @@ public class CreateProductDto {
     @NotNull
     private double price;
 
+    @NotBlank
     private String image;
+
+
+    public CreateProductDto(Long categoryId, Long manufacturerId, String name, double price, String image) {
+        this.categoryId = categoryId;
+        this.manufacturerId = manufacturerId;
+        this.name = name;
+        this.price = price;
+        this.image = image;
+    }
 }
